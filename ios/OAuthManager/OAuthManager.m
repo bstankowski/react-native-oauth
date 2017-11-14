@@ -89,8 +89,10 @@ RCT_EXPORT_MODULE(OAuthManager);
         // [sharedManager setPendingAuthentication:YES];
         if ([SFSafariViewController class] != nil) {
             safariViewController = [[SFSafariViewController alloc] initWithURL:URL];
-            UIViewController *viewController = application.keyWindow.rootViewController;
-            [viewController presentViewController:safariViewController animated:YES completion: nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIViewController *viewController = application.keyWindow.rootViewController;
+                [viewController presentViewController:safariViewController animated:YES completion: nil];
+            });            
         } else {
             [application openURL:URL];
         }
